@@ -2,11 +2,17 @@ import React from "react";
 import type { AppProps } from "next/app";
 import GlobalStyle from "../components/globalstyles";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import type { Palette, ThemeOptions } from "@mui/material/styles";
 import { Provider, useSelector } from "react-redux";
 import store from "../store";
 import { selectMode } from "../components/sliceMode";
 import Layout from "../components/Layout";
-
+interface IPalette extends Palette {
+    myColor: string | {};
+}
+interface IThemeOptions extends ThemeOptions {
+    palette: IPalette;
+}
 const ThemeWrapper = ({ children }: any) => {
     const mode = useSelector(selectMode);
     const theme = React.useMemo(
@@ -14,8 +20,9 @@ const ThemeWrapper = ({ children }: any) => {
             createTheme({
                 palette: {
                     mode,
+                    myColor: mode === "light" ? "white" : "gray",
                 },
-            }),
+            } as IThemeOptions),
         [mode]
     );
     return <ThemeProvider theme={theme}>{children}</ThemeProvider>;

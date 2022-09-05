@@ -8,6 +8,7 @@ const Container = styled.main`
     width: 80%;
     margin: 0 auto;
     padding: 1rem;
+    background-color: ${({ theme }) => theme.palette.myColor};
     header {
         display: flex;
         justify-content: center;
