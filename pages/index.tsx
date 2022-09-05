@@ -1,4 +1,6 @@
 import Head from 'next/head'
+import Button from "@mui/material/Button";
+
 import {
   Container,
   Main,
@@ -25,7 +27,7 @@ export default function Home() {
           Get started by editing
           <CodeTag>pages/index.tsx</CodeTag>
         </Description>
-
+        <Button variant="contained">Hello World</Button>
         <Cards />
       </Main>
     </Container>
