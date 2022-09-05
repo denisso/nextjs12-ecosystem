@@ -1,12 +1,14 @@
 import React from "react";
 import type { AppProps } from "next/app";
-// import { ThemeProvider, styled } from "styled-components";
 import GlobalStyle from "../components/globalstyles";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Button from "@mui/material/Button";
+import { Provider, useSelector } from "react-redux";
+import store from "../store";
+import { selectMode } from "../components/sliceMode";
+import Layout from "../components/Layout";
 
-export default function App({ Component, pageProps }: AppProps) {
-    const [mode, setMode] = React.useState<'light' | 'dark'>('light');
+const ThemeWrapper = ({ children }: any) => {
+    const mode = useSelector(selectMode);
     const theme = React.useMemo(
         () =>
             createTheme({
@@ -16,21 +18,20 @@ export default function App({ Component, pageProps }: AppProps) {
             }),
         [mode]
     );
+    return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+};
+
+export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
-            <ThemeProvider theme={theme}>
-                <GlobalStyle />
-                <div>
-                    <Button
-                        variant="contained"
-                        onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-                    >
-                        Toggle
-                    </Button>
-                    <span>Current: {mode}</span>
-                </div>
-                <Component {...pageProps} />
-            </ThemeProvider>
+            <Provider store={store}>
+                <ThemeWrapper>
+                    <Layout>
+                        <GlobalStyle />
+                        <Component {...pageProps} />
+                    </Layout>
+                </ThemeWrapper>
+            </Provider>
         </>
     );
 }
