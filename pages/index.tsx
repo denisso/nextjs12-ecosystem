@@ -7,6 +7,7 @@ import {
   CodeTag,
 } from '../components/sharedstyles'
 import Cards from '../components/cards'
+import Modal from '../components/Modal'
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
 
         <Cards />
       </Main>
+      <Modal />
     </Container>
   )
 }
