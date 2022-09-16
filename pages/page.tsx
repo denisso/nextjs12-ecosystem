@@ -2,16 +2,16 @@ import React from "react";
 import Link from "next/link";
 import { Context } from "../Content";
 
-const Page = () => {
+const Page = ({ date }: any) => {
     const { setModal } = React.useContext(Context);
     React.useEffect(() => {
-        setModal(false);
+        setTimeout(() => setModal(false), 500);
     }, [setModal]);
     return (
         <>
             <div className="box">
                 <h1>Page</h1>
-
+                <div>Today { date }</div>
                 <Link href="/">
                     <a onClick={() => setModal(true)}>Goto Home</a>
                 </Link>
@@ -28,17 +28,18 @@ const Page = () => {
 };
 
 export default Page;
-let loading = 0;
 
 /**
  * loading delay imitation
  * @returns
  */
 const waitMe = () =>
-    new Promise((resolve) => setTimeout(() => resolve(loading++), 2000));
+    new Promise((resolve) =>
+        setTimeout(() => resolve(new Date().toUTCString()), 2000)
+    );
+
 export async function getServerSideProps() {
-    if (loading) await waitMe();
     return {
-        props: {},
+        props: { date: await waitMe() },
     };
 }
