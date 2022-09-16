@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Context } from "../Content";
 
-const Home = () => {
+const Page = () => {
     const { setModal } = React.useContext(Context);
     React.useEffect(() => {
         setModal(false);
@@ -10,9 +10,10 @@ const Home = () => {
     return (
         <>
             <div className="box">
-                <h1>Home</h1>
-                <Link href="/page">
-                    <a onClick={() => setModal(true)}>Goto Page</a>
+                <h1>Page</h1>
+
+                <Link href="/">
+                    <a onClick={() => setModal(true)}>Goto Home</a>
                 </Link>
             </div>
             <style jsx>{`
@@ -26,7 +27,7 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Page;
 let loading = 0;
 
 /**
