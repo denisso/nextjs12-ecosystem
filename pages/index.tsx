@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Context } from "../Content";
+import { Context } from "../Context";
 
 const Home = ({ date }: any) => {
     const { setModal } = React.useContext(Context);
