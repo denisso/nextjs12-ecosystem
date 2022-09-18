@@ -1,19 +1,14 @@
 import React from "react";
 import Link from "next/link";
-import { Context } from "../Context";
 
 const Page = ({ date }: any) => {
-    const { setModal } = React.useContext(Context);
-    React.useEffect(() => {
-        setTimeout(() => setModal(false), 500);
-    }, [setModal]);
     return (
         <>
             <div className="box">
                 <h1>Page</h1>
-                <div>Today { date }</div>
+                <div>Today {date}</div>
                 <Link href="/">
-                    <a onClick={() => setModal(true)}>Goto Home</a>
+                    <a>Goto Home</a>
                 </Link>
             </div>
             <style jsx>{`
