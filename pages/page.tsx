@@ -1,21 +1,19 @@
-import { Suspense } from "react";
 import dynamic from "next/dynamic";
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 // const DynamicComponent = dynamic(() => import("../components/Component"),{
 //     suspense: false,
 // });
 
 const DynamicComponent = lazy(() => import("../components/Component"));
-
-const Home = ({ date }: any) => {
+const Page = ({ date }: any) => {
     return (
         <Suspense fallback={`Loading...`}>
-            <DynamicComponent date={date} name="Home" path="/page"/>
+            <DynamicComponent date={date} name="Page" path="/" />
         </Suspense>
     );
 };
 
-export default Home;
+export default Page;
 
 /**
  * loading delay imitation
