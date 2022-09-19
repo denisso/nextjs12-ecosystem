@@ -1,33 +1,26 @@
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
-import { lazy } from "react";
-// const DynamicComponent = dynamic(() => import("../components/Component"),{
-//     suspense: false,
+
+// const DynamicComponent = dynamic(() => import("../components/ComponentLazy"), {
+    // loading: () => <>Loading</>,
+    // ssr: true
+    // suspense: true
 // });
 
-const DynamicComponent = lazy(() => import("../components/Component"));
-
-const Home = ({ date }: any) => {
+const DynamicComponent = dynamic<any>(
+    () =>
+        new Promise<any>((resolve) => {
+            setTimeout(() => {
+                import("../components/Hello").then((mod) => resolve(mod.Hello));
+            }, 2000);
+        })
+);
+const Home = () => {
     return (
-        <Suspense fallback={`Loading...`}>
-            <DynamicComponent date={date} name="Home" path="/page"/>
+        <Suspense fallback={<>Loading...</>}>
+            <DynamicComponent name="Home" path="/page" />
         </Suspense>
     );
 };
 
 export default Home;
-
-/**
- * loading delay imitation
- * @returns
- */
-const waitMe = () =>
-    new Promise((resolve) =>
-        setTimeout(() => resolve(new Date().toUTCString()), 2000)
-    );
-
-export async function getServerSideProps() {
-    return {
-        props: { date: await waitMe() },
-    };
-}
