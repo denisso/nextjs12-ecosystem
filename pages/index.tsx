@@ -24,7 +24,8 @@ const Home: NextPage = () => {
     const [error, setError] = React.useState("");
     const handleRequst = async (id: string) => {
         try {
-            setResponse(await revalidate(id));
+            await revalidate(id)
+            setResponse(id);
             if (!pages.includes(id)) {
                 pages.push(id);
                 setPages([...pages]);
