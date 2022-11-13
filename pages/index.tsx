@@ -1,4 +1,5 @@
 import React from "react";
+
 import type { NextPage } from "next";
 import axios from "axios";
 import Link from "next/link";
@@ -22,9 +23,10 @@ const Home: NextPage = () => {
     const [value, setValue] = React.useState<string>("");
     const [response, setResponse] = React.useState("1");
     const [error, setError] = React.useState("");
+
     const handleRequst = async (id: string) => {
         try {
-            await revalidate(id)
+            await revalidate(id);
             setResponse(id);
             if (!pages.includes(id)) {
                 pages.push(id);

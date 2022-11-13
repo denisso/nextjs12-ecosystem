@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import { Context } from "../Context";
 
 function MyApp({ Component, pageProps }: AppProps) {
-    const [pages, setPages] = React.useState<string[]>(["1", "2"]);
+    const [pages, setPages] = React.useState<string[]>([]);
     return (
         <Context.Provider value={{ pages, setPages }}>
             <Component {...pageProps} />
