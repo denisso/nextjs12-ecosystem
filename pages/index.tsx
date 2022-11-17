@@ -1,16 +1,22 @@
-import type { GetServerSideProps } from "next";
+import React from "react";
 import Link from "next/link";
 
 const Home = ({ name }: { name: string }) => {
-    return <div><Link href="/post/123">Goto Page</Link></div>;
+    const [value, setValue] = React.useState("");
+    return (
+        <>
+            <div>
+                <input
+                    type="text"
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                />
+            </div>
+            <div>
+                <Link href={`/post/${value}`}>Goto Page</Link>
+            </div>
+        </>
+    );
 };
 
 export default Home;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    
-    console.log("Index getServerSideProps Context:params: ", context.params);
-    return {
-        props: { props: { name: "Home" } },
-    };
-};
