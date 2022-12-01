@@ -1,17 +1,18 @@
-import axios from "axios"
 import { GetStaticProps, GetStaticPaths } from "next";
 import Link from "next/link";
 import moment from "moment";
+import getConfig from 'next/config'
+const { serverRuntimeConfig } = getConfig()
 
 type TProps = {
     generated: number;
-    state: number;
+    state: {[key: string]: any};
 };
 
 const Page = ({ generated, state }: TProps) => {
     return (
         <>
-            <div>{moment(generated).format("MMMM Do YYYY, h:mm:ss a")} state: {state}</div>
+            <div>{moment(generated).format("MMMM Do YYYY, h:mm:ss a")} state: {JSON.stringify(state)}</div>
             <div>
                 <Link href="/">
                     <a>Goto Home</a>
@@ -37,9 +38,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
     // ...
-    let state: number = 0
+    let state: {[key: string]: any} ={}
     try{
-        state = (await axios.get("http://localhost:3000/api/getvar")).data.state
+        state = {state: serverRuntimeConfig.var1}
     }
     catch(err){
         console.log("error", err)

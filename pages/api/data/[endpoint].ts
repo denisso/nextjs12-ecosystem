@@ -1,14 +1,24 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { data } from "../../../data/data";
+import getConfig from "next/config";
+
+const { serverRuntimeConfig } = getConfig();
 
 const add = ({ key, value }: { key?: string; value?: string }) => {
-    if (key) data[key] = value;
-    console.log("add", key, value);
+    const data = serverRuntimeConfig.var1;
+    if (Array.isArray(data) && typeof key === "string" && key !== "") {
+        data.push({ [key]: value });
+    }
+    console.log(data);
+    // if (key)  = value;
+    // console.log("add", key, value);
     return data;
 };
 
 const remove = (key: string) => {
-    delete data[key];
+    // delete data[key];
+    // return data;
+    const data = serverRuntimeConfig.var1;
+    console.log(data);
     return data;
 };
 
@@ -27,8 +37,8 @@ type Data = {
     query?: any;
     body?: any;
     data?: { [key: string]: any };
-    error?: boolean;
-    message?: string;
+    error?: string | boolean;
+    result?: any;
 };
 
 export default async function handler(
@@ -36,14 +46,17 @@ export default async function handler(
     res: NextApiResponse<Data>
 ) {
     console.log("body:", req.body);
+    let result: Array<string> = [];
     try {
-        if (endpoints[req.query.endpoint])
-            endpoints[req.query.endpoint]({ key: req.body.key, value: req.body.value });
-        return res.json({ query: req.query, body: req.body, data });
+        if (endpoints[req.query.endpoint] instanceof Function)
+            result = endpoints[req.query.endpoint]({
+                key: req.body.key,
+                value: req.body.value,
+            });
+        return res.json({ query: req.query, body: req.body, result: result });
     } catch (err: any) {
         return res.status(500).send({
-            error: true,
-            message: err.message,
+            error: err.message,
             query: req.query,
             body: req.body,
         });
