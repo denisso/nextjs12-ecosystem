@@ -1,23 +1,37 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import getConfig from "next/config";
-
-const { serverRuntimeConfig } = getConfig();
 
 const add = ({ key, value }: { key?: string; value?: string }) => {
-    const data = serverRuntimeConfig.var1;
+    if (!Array.isArray(process.env.VAR1)) {
+        try {
+            process.env.VAR1 = "[]";
+        } catch (err: any) {
+            console.log(`JSON.stringify("[]")`, err.message);
+        }
+    }
+    let data = null;
+    try {
+        console.log("process.env.VAR1", process.env.VAR1);
+        if (process.env.VAR1) data = JSON.parse(process.env.VAR1);
+    } catch (err: any) {
+        console.log(`JSON.parse(process.env.VAR1 || "")`, err.message);
+    }
+
     if (Array.isArray(data) && typeof key === "string" && key !== "") {
         data.push({ [key]: value });
     }
     console.log(data);
-    // if (key)  = value;
-    // console.log("add", key, value);
+    try {
+        process.env.VAR1 = JSON.stringify(data);
+    } catch (err: any) {
+        console.log(`process.env.VAR1 = JSON.stringify(data)`);
+    }
     return data;
 };
 
 const remove = (key: string) => {
     // delete data[key];
     // return data;
-    const data = serverRuntimeConfig.var1;
+    const data = process.env.VAR1;
     console.log(data);
     return data;
 };

@@ -1,8 +1,6 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import Link from "next/link";
 import moment from "moment";
-import getConfig from 'next/config'
-const { serverRuntimeConfig } = getConfig()
 
 type TProps = {
     generated: number;
@@ -40,7 +38,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     // ...
     let state: {[key: string]: any} ={}
     try{
-        state = {state: serverRuntimeConfig.var1}
+        state = {state: process.env.VAR1}
     }
     catch(err){
         console.log("error", err)
