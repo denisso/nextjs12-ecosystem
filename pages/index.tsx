@@ -6,7 +6,7 @@ import {
   Description,
   CodeTag,
 } from '../components/sharedstyles'
-import Cards from '../components/cards'
+import {MarkdownPreview} from '../components/MarkdownPreview'
 
 export default function Home() {
   return (
@@ -26,7 +26,7 @@ export default function Home() {
           <CodeTag>pages/index.tsx</CodeTag>
         </Description>
 
-        <Cards />
+        <MarkdownPreview />
       </Main>
     </Container>
   )

@@ -9,22 +9,14 @@ const themeLigth: DefaultTheme = {
         secondary: "#7e96ff",
     },
 };
-const themeDark: DefaultTheme = {
-    colors: {
-        primary: "#161616",
-        secondary: "#0070f3",
-    },
-};
+
 export default function App({ Component, pageProps }: AppProps) {
     const [theme, setTheme] = React.useState(true);
     return (
         <>
-            <ThemeProvider theme={theme ? themeLigth : themeDark}>
+            <ThemeProvider theme={themeLigth}>
                 <GlobalStyle />
-                <div>
-                    <button onClick={() => setTheme(!theme)}>Toggle</button>
-                    <span>Current: {theme? "Light": "Dark"}</span>
-                </div>
+
                 <Component {...pageProps} />
             </ThemeProvider>
         </>
