@@ -24,7 +24,7 @@ const Title = styled.h1`
   font-size: 4rem;
   text-align: center;
   text-decoration: none;
-
+  margin-bottom: 2rem;
   a {
     color: ${({ theme }) => theme.colors.secondary};
     text-decoration: none;

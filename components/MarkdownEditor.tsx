@@ -1,5 +1,6 @@
 import React from "react";
-import SimpleMdeReact from "react-simplemde-editor";
+import dynamic from 'next/dynamic';
+const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 import "easymde/dist/easymde.min.css";
 
 export const MarkdownEditor = () => {

@@ -3,8 +3,7 @@ import {MarkdownEditor} from "./MarkdownEditor"
 import { HTMLComponent } from "./HTMLComponent"
 const Container = styled.div`
     display: flex;
-    flex-direction: column;
-
+    gap: 1rem;
 `
 export const MarkdownPreview = () => <Container>
     <MarkdownEditor/>
