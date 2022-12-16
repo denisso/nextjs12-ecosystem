@@ -1,41 +1,16 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { unified } from "unified";
 import rehypeParse from "rehype-parse";
 import rehypeReact from "rehype-react";
-import Image, {ImageProps} from "next/image";
-const imageMedia = css`
-    height: 22rem;
-    transition: 1s height;
-    ${({ theme }) => theme.breakpoints.down("md")} {
-        height: 18rem;
-    }
-    @media (max-width: 750px) {
-        height: 15rem;
-    }
-    ${({ theme }) => theme.breakpoints.down("sm")} {
-        height: 12rem;
-    }
-    @media (max-width: 500px) {
-        height: 9.5rem;
-    }
-    @media (max-width: 400px) {
-        height: 7rem;
-    }
-`;
+import { Context } from "./Context";
 
 const Content = styled("div")`
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     text-indent: 2rem;
-    ${({ theme }) => theme.breakpoints.down("md")} {
-        text-indent: 1.2rem;
-    }
-    ${({ theme }) => theme.breakpoints.down("sm")} {
-        text-indent: 0.5rem;
-    }
-
+    overflow-x: auto;
     ul,
     ol {
         list-style-position: inside;
@@ -66,26 +41,30 @@ const Content = styled("div")`
     pre {
         text-indent: 0;
         margin-left: 2rem;
-        ${({ theme }) => theme.breakpoints.down("md")} {
-            margin-left: 1.2rem;
-        }
-        ${({ theme }) => theme.breakpoints.down("sm")} {
-            margin-left: 0.5rem;
-        }
-        code {
-            font-family: ${({ theme }) => theme.typography.fontSourceCode};
-        }
+
         overflow-x: auto;
     }
-    .LoadingLazy {
+    blockquote {
+        margin: 0;
+        text-indent: 0;
+        color: rgba(0, 0, 0, 0.5);
+        padding-left: calc(2rem - 5px);
+        border-left: 5px solid rgba(0, 0, 0, 0.1);
+    }
+
+    img {
         margin: 1rem auto;
-        ${imageMedia}
+        display: block;
+        max-width: 100%;
+        height: 100%;
+    }
+    iframe {
+        width: 560px;
+        height: 315px;
+        margin: 0 auto;
+        display: block;
     }
 `;
-
-const ImageNextJs= ({ src, alt }: JSX.IntrinsicElements["img"]): JSX.Element => (
-    <Image src={src || ""} alt={alt} />
-);
 
 export const HTML = ({
     html,
@@ -102,7 +81,6 @@ export const HTML = ({
                 createElement: React.createElement,
                 components: {
                     ...components,
-                    img: ImageNextJs,
                 },
             })
             .processSync(html).result;
@@ -110,17 +88,41 @@ export const HTML = ({
 
     return result;
 };
+
+const Container = styled.div`
+    border: 1px solid #ced4da;
+    display: flex;
+    flex-direction: column;
+    .Title {
+        height: 3rem;
+        margin: 0;
+        border-bottom: 1px solid #ced4da;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: center;
+    }
+    .Content {
+        padding: 1rem;
+    }
+`;
+
 export const HTMLComponent = ({
-    content,
     className,
-    components
+    components,
 }: {
-    content?: string;
     className?: string;
     components?: { [key: string]: React.ReactNode };
 }) => {
-    if (typeof content !== "string") return <></>;
+    const { data } = React.useContext(Context);
     return (
-        <Content className={className}>{HTML({ html: content || "", components })}</Content>
+        <Container
+            className={`HTMLComponent${className ? " " + className : ""}`}
+        >
+            <h2 className="Title">HTML:</h2>
+            <Content className="Content">
+                {HTML({ html: data || "", components })}
+            </Content>
+        </Container>
     );
 };

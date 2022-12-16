@@ -8,10 +8,18 @@ const themeLigth: DefaultTheme = {
         primary: "#6b6b6b",
         secondary: "#7e96ff",
     },
+    breakpoints: {
+        xs: 0,
+        xm: 400,
+        sm: 600,
+        md: 820,
+        lg: 1040,
+        xl: 1500,
+    },
 };
 
 export default function App({ Component, pageProps }: AppProps) {
-    const [theme, setTheme] = React.useState(true);
+
     return (
         <>
             <ThemeProvider theme={themeLigth}>
