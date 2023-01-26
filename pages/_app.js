@@ -2,12 +2,14 @@ import { useEffect } from "react";
 import Link from "next/link";
 import "../styles/globals.css";
 import styles from "../styles/App.module.css";
-
+import { Layout } from "../components/Layout";
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
     console.log("App layout mounted");
     return () => console.log("App layout unmounted");
   }, []);
+  // alternate variant getLayout
+  // const getLayout = Component.getLayout || ((page) => page);
   return (
     <div className={styles.main}>
       <header>
@@ -24,6 +26,7 @@ function MyApp({ Component, pageProps }) {
         </nav>
       </header>
       <section>
+        {/* {getLayout(<Component {...pageProps} />)} */}
         <Layout Component={Component} pageProps={pageProps} />
       </section>
       <footer>Thats all folks</footer>
@@ -31,12 +34,6 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-const Layout = ({ Component, pageProps }) => {
-  if (Component.getLayout) {
-    return Component.getLayout(<Component {...pageProps} />);
-  } else {
-    return <Component {...pageProps} />;
-  }
-};
+
 
 export default MyApp;
